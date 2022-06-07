@@ -44,6 +44,7 @@ public class MyBean implements BeanNameAware, ApplicationContextAware, Initializ
     @Override
     public void afterPropertiesSet() throws Exception {
         log.debug("当前Bean" + this +  "初始化");
+        System.out.println("test");
     }
 
 
