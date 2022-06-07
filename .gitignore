@@ -12,7 +12,7 @@ out/
 .settings
 .idea
  
-# filter databfile¡¢sln file
+# filter databfileï¿½ï¿½sln file
 *.mdb
 *.ldb
 *.sln
