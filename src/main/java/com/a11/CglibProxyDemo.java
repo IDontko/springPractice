@@ -19,7 +19,7 @@ public class CglibProxyDemo {
     }
 
     public static void main(String[] args) {
-//        Target target = new Target();
+        Target target = new Target();
         Target proxy = (Target) Enhancer.create(Target.class, (MethodInterceptor) (o, method, objects, methodProxy) -> {
             System.out.println("before");
 //            Object result = method.invoke(target, objects); //用方法反射调用目标
@@ -30,7 +30,7 @@ public class CglibProxyDemo {
 
             return result;
         });
-        System.out.println(proxy);
+
         proxy.foo();
 
     }
