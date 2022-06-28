@@ -14,11 +14,13 @@ public class A13 {
             @Override
             public Object intercept(Object p, Method method, Object[] args,
                                     MethodProxy methodProxy) throws Throwable {
-//                System.out.println("before...");
+                System.out.println("before...");
 //                return method.invoke(target, args); // 反射调用
                 // FastClass
 //                return methodProxy.invoke(target, args); // 内部无反射, 结合目标用
                 return methodProxy.invokeSuper(p, args); // 内部无反射, 结合代理用
+                //为啥不能这么写? 因为如果调用代理类的 实现接口，该接口会继续进入intercept方法，导致死循环。
+//                return methodProxy.invoke(p, args);
             }
         });
 
