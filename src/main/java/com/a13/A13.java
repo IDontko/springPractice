@@ -1,5 +1,6 @@
 package com.a13;
 
+import org.springframework.cglib.core.DebuggingClassWriter;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
 
@@ -8,6 +9,7 @@ import java.lang.reflect.Method;
 public class A13 {
 
     public static void main(String[] args) {
+        System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "D:\\Work_CodePractice\\springPractice\\src\\main\\java\\com\\a13");
         Proxy proxy = new Proxy();
         Target target = new Target();
         proxy.setMethodInterceptor(new MethodInterceptor() {

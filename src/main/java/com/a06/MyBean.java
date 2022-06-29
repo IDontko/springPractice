@@ -4,11 +4,15 @@ import com.Component2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.EmbeddedValueResolverAware;
+import org.springframework.util.StringValueResolver;
 
 import javax.annotation.PostConstruct;
 
@@ -16,7 +20,7 @@ import javax.annotation.PostConstruct;
  * @author gaoyang
  * create on 2022/5/31
  */
-public class MyBean implements BeanNameAware, ApplicationContextAware, InitializingBean {
+public class MyBean implements BeanNameAware, BeanFactoryAware, ApplicationContextAware, InitializingBean, EmbeddedValueResolverAware {
 
     private static final Logger log = LoggerFactory.getLogger(MyBean.class);
 
@@ -56,5 +60,15 @@ public class MyBean implements BeanNameAware, ApplicationContextAware, Initializ
     @PostConstruct
     public void init() {
         log.debug("当前bean " + this + " 使用@PostConstruct 初始化");
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        log.debug("当前beanFactory " + beanFactory);
+    }
+
+    @Override
+    public void setEmbeddedValueResolver(StringValueResolver resolver) {
+        log.debug("注入${}解析器 " + resolver);
     }
 }

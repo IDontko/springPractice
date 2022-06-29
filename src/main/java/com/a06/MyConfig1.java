@@ -2,7 +2,9 @@ package com.a06;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,8 @@ import javax.annotation.PostConstruct;
 
 @Configuration
 public class MyConfig1 {
+
+    private static String text = "test";
 
     private static final Logger log = LoggerFactory.getLogger(MyConfig1.class);
 
@@ -25,11 +29,15 @@ public class MyConfig1 {
         log.debug("初始化");
     }
 
-    @Bean //  beanFactory 后处理器
-    public static BeanFactoryPostProcessor processor1() {
+    @Autowired//  beanFactory 后处理器
+    public BeanFactoryPostProcessor processor1() {
         return beanFactory -> {
             log.debug("执行 processor1");
         };
+    }
+
+    public MyConfig1(){
+        log.debug("myConfig1正在被创建");
     }
 
 }

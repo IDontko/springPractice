@@ -26,7 +26,7 @@ public class MyConfig2 implements InitializingBean, ApplicationContextAware {
     }
 
     @Bean //  beanFactory 后处理器
-    public BeanFactoryPostProcessor processor2() {
+    public static BeanFactoryPostProcessor processor2() {
         return beanFactory -> {
             log.debug("执行 processor2");
         };

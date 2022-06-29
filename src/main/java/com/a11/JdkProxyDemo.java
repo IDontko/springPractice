@@ -27,7 +27,8 @@ public class JdkProxyDemo {
     public static void main(String[] args) {
         Target target = new Target();
         ClassLoader classLoader = JdkProxyDemo.class.getClassLoader();
-        Foo proxy = (Foo)Proxy.newProxyInstance(classLoader, new Class[]{Foo.class}, (p, method, args1) -> {
+        System.out.println(target.getClass().getClassLoader() == classLoader);
+        Foo proxy = (Foo)Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), (p, method, args1) -> {
             System.out.println("before");
             Object result = method.invoke(target, args1);
             System.out.println("after");

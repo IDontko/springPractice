@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 /*
     如果 jdk > 8, 运行时请添加 --add-opens java.base/java.lang=ALL-UNNAMED
  */
-@ComponentScan("com.itheima.a08.sub")
+@ComponentScan("com.a08.sub")
 public class A08_1 {
 
     private static final Logger log = LoggerFactory.getLogger(A08_1.class);
