@@ -23,22 +23,22 @@ public class Controller1 {
         log.debug("test2({})", name);
         return null;
     }
-/*
+
 
     @PutMapping("/test3")
     public ModelAndView test3(@Token String token) {
         log.debug("test3({})", token);
         return null;
     }
-*/
+
 
     @RequestMapping("/test4")
-//    @ResponseBody
-   /* @Yml
+    @ResponseBody
+    @Yml
     public User test4() {
         log.debug("test4");
         return new User("张三", 18);
-    }*/
+    }
 
     public static class User {
         private String name;

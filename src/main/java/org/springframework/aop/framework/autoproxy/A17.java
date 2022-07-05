@@ -16,10 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ConfigurationClassPostProcessor;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.annotation.Order;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.jar.Pack200;
 
 public class A17 {
 
