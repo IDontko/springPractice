@@ -33,7 +33,7 @@ public class Controller1 {
 
 
     @RequestMapping("/test4")
-    @ResponseBody
+//    @ResponseBody
     @Yml
     public User test4() {
         log.debug("test4");

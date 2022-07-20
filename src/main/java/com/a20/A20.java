@@ -8,10 +8,12 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
+import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -36,18 +38,21 @@ public class A20 {
         });
 
         // 请求来了，获取控制器方法  返回处理器执行链对象
-        MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/test3");
-        request.setParameter("name", "张三");
-        request.addHeader("token", "某个令牌");
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/test4");
+/*        request.setParameter("name", "张三");
+        request.addHeader("token", "某个令牌");*/
         MockHttpServletResponse response = new MockHttpServletResponse();
         HandlerExecutionChain chain = handlerMapping.getHandler(request);
         System.out.println(chain);
 
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>");
-        // HandlerAdapter 作用: 调用控制器方法
+//         HandlerAdapter 作用: 调用控制器方法
         MyRequestMappingHandlerAdapter handlerAdapter = context.getBean(MyRequestMappingHandlerAdapter.class);
         handlerAdapter.invokeHandlerMethod(request, response, (HandlerMethod) chain.getHandler());
+
+        byte[] content = response.getContentAsByteArray();
+        System.out.println(new String(content, StandardCharsets.UTF_8));
 
 //        System.out.println(">>>>>>>>>>>>>>>>>>>>> 参数解析器");
 //        //参数解析器
