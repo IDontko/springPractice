@@ -42,28 +42,28 @@ public class A16 {
 
 
         //静态匹配器
-//        StaticMethodMatcherPointcut pt3 = new StaticMethodMatcherPointcut() {
-//            @Override
-//            public boolean matches(Method method, Class<?> targetClass) {
-//                // 检查方法上是否加了 Transactional 注解
-//                MergedAnnotations annotations = MergedAnnotations.from(method);
-//                if (annotations.isPresent(Transactional.class)) {
-//                    return true;
-//                }
-//                // 查看类上是否加了 Transactional 注解
-//                annotations = MergedAnnotations.from(targetClass, MergedAnnotations.SearchStrategy.TYPE_HIERARCHY);
-//                if (annotations.isPresent(Transactional.class)) {
-//                    return true;
-//                }
-//                return false;
-//            }
-//        };
-//
-//
-//        System.out.println(pt3.matches(T1.class.getMethod("foo"), T1.class));
-//        System.out.println(pt3.matches(T1.class.getMethod("bar"), T1.class));
-//        System.out.println(pt3.matches(T2.class.getMethod("foo"), T2.class));
-//        System.out.println(pt3.matches(T3.class.getMethod("foo"), T3.class));
+        StaticMethodMatcherPointcut pt3 = new StaticMethodMatcherPointcut() {
+            @Override
+            public boolean matches(Method method, Class<?> targetClass) {
+                // 检查方法上是否加了 Transactional 注解
+                MergedAnnotations annotations = MergedAnnotations.from(method);
+                if (annotations.isPresent(Transactional.class)) {
+                    return true;
+                }
+                // 查看类上是否加了 Transactional 注解
+                annotations = MergedAnnotations.from(targetClass, MergedAnnotations.SearchStrategy.TYPE_HIERARCHY);
+                if (annotations.isPresent(Transactional.class)) {
+                    return true;
+                }
+                return false;
+            }
+        };
+
+
+        System.out.println(pt3.matches(T1.class.getMethod("foo"), T1.class));
+        System.out.println(pt3.matches(T1.class.getMethod("bar"), T1.class));
+        System.out.println(pt3.matches(T2.class.getMethod("foo"), T2.class));
+        System.out.println(pt3.matches(T3.class.getMethod("foo"), T3.class));
 
         //动态匹配器,需要检查参数,动态参数一般用的比较少，每次执行方法的时候都要进行检查。
         //静态匹配可以缓存。

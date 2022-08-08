@@ -10,50 +10,31 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import java.util.List;
 
-
-@Configuration
 @ComponentScan
+@Configuration
 @PropertySource("classpath:application.properties")
 @EnableConfigurationProperties({WebMvcProperties.class, ServerProperties.class})
 public class WebConfig {
-    // ⬅️内嵌 web 容器工厂
+    // 内嵌web容器工厂
     @Bean
-    public TomcatServletWebServerFactory tomcatServletWebServerFactory(ServerProperties serverProperties) {
-        return new TomcatServletWebServerFactory(serverProperties.getPort());
+    public TomcatServletWebServerFactory tomcatServletWebServerFactory(ServerProperties serverProperties){
+        return  new TomcatServletWebServerFactory(serverProperties.getPort());
     }
 
-    // ⬅️创建 DispatcherServlet
+    //创建DispatcherServlet
     @Bean
-    public DispatcherServlet dispatcherServlet() {
+    public DispatcherServlet dispatcherServlet(){
         return new DispatcherServlet();
     }
 
-    // ⬅️注册 DispatcherServlet, Spring MVC 的入口
+    //注册DispatcherServlet SpringMVC的入口
     @Bean
-    public DispatcherServletRegistrationBean dispatcherServletRegistrationBean(
-            DispatcherServlet dispatcherServlet, WebMvcProperties webMvcProperties) {
-        DispatcherServletRegistrationBean registrationBean = new DispatcherServletRegistrationBean(dispatcherServlet, "/");
-        registrationBean.setLoadOnStartup(webMvcProperties.getServlet().getLoadOnStartup());
-        return registrationBean;
+    public DispatcherServletRegistrationBean dispatcherServletRegistrationBean(DispatcherServlet dispatcherServlet, WebMvcProperties webMvcProperties){
+        DispatcherServletRegistrationBean registerBean = new DispatcherServletRegistrationBean(dispatcherServlet, "/");
+        WebMvcProperties.Servlet servlet = webMvcProperties.getServlet();
+        registerBean.setLoadOnStartup(servlet.getLoadOnStartup());
+        return registerBean;
     }
-
-    // 如果用 DispatcherServlet 初始化时默认添加的组件, 并不会作为 bean, 给测试带来困扰
-    // ⬅️1. 加入RequestMappingHandlerMapping
-    @Bean
-    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        return new RequestMappingHandlerMapping();
-    }
-
-    @Bean
-    public MyRequestMappingHandlerAdapter requestMappingHandlerAdapter() {
-        TokenArgumentResolver tokenArgumentResolver = new TokenArgumentResolver();
-        YmlHandlerReturnValueAdapter ymlReturnValueHandler = new YmlHandlerReturnValueAdapter();
-        MyRequestMappingHandlerAdapter handlerAdapter = new MyRequestMappingHandlerAdapter();
-        handlerAdapter.setCustomArgumentResolvers(List.of(tokenArgumentResolver));
-        handlerAdapter.setCustomReturnValueHandlers(List.of(ymlReturnValueHandler));
-        return handlerAdapter;
-    }
+    
 }

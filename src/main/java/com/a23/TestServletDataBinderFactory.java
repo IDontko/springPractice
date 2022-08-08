@@ -1,6 +1,7 @@
 package com.a23;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.bind.ServletRequestParameterPropertyValues;
@@ -36,13 +37,17 @@ public class TestServletDataBinderFactory {
 //        initializer.setConversionService(service);
 //        ServletRequestDataBinderFactory factory = new ServletRequestDataBinderFactory(null, initializer);
         // "4. 同时加了 @InitBinder 和 ConversionService"
-        InvocableHandlerMethod method = new InvocableHandlerMethod(new MyController(), MyController.class.getMethod("aaa", WebDataBinder.class));
-        FormattingConversionService service = new FormattingConversionService();
-        service.addFormatter(new MyDateFormatter("用 ConversionService 方式扩展转换功能"));
+//        InvocableHandlerMethod method = new InvocableHandlerMethod(new MyController(), MyController.class.getMethod("aaa", WebDataBinder.class));
+//        FormattingConversionService service = new FormattingConversionService();
+//        service.addFormatter(new MyDateFormatter("用 ConversionService 方式扩展转换功能"));
+//        ConfigurableWebBindingInitializer initializer = new ConfigurableWebBindingInitializer();
+//        initializer.setConversionService(service);
+//        5，使用默认ConversionService转换器
+        FormattingConversionService service = new DefaultFormattingConversionService();
         ConfigurableWebBindingInitializer initializer = new ConfigurableWebBindingInitializer();
         initializer.setConversionService(service);
-        ServletRequestDataBinderFactory factory = new ServletRequestDataBinderFactory(List.of(method), initializer);
         //创建转换器
+        ServletRequestDataBinderFactory factory = new ServletRequestDataBinderFactory(null, initializer);
         WebDataBinder dataBinder = factory.createBinder(new ServletWebRequest(request), target, "user");
 
         dataBinder.bind(new ServletRequestParameterPropertyValues(request));

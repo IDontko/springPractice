@@ -1,5 +1,6 @@
 package org.springframework.aop.framework.autoproxy;
 
+import com.a13.Target;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.aspectj.lang.annotation.After;
@@ -10,13 +11,12 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.beans.factory.config.BeanDefinitionCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ConfigurationClassPostProcessor;
 import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.core.annotation.Order;
 
+import java.util.List;
 
 public class A17 {
 
@@ -26,23 +26,29 @@ public class A17 {
         context.registerBean("config", Config.class);
         //让@Bean生效
         context.registerBean(ConfigurationClassPostProcessor.class);
-        context.registerBean(AnnotationAwareAspectJAutoProxyCreator.class, new BeanDefinitionCustomizer[0]);
+        context.registerBean(AnnotationAwareAspectJAutoProxyCreator.class);
 
         context.registerBean("target1", Target1.class);
         context.refresh();
 
-//        Target1 target1 = (Target1) context.getBean("target1");
-//        target1.foo();
-        AnnotationAwareAspectJAutoProxyCreator creator = (AnnotationAwareAspectJAutoProxyCreator)context.getBean(AnnotationAwareAspectJAutoProxyCreator.class);
-     /*   List<Advisor> advisors = creator.findEligibleAdvisors(A17.Target2.class, "target2");
+  /*      Target1 target1 = (Target1) context.getBean("target1");
+        target1.foo();*/
+
+        AnnotationAwareAspectJAutoProxyCreator creator = context.getBean(AnnotationAwareAspectJAutoProxyCreator.class);
+        //根据目标类型，找到合适的切面。
+        List<Advisor> advisors = creator.findEligibleAdvisors(Target1.class, " target1");
+        //一共有4个切面
         for(Advisor advisor: advisors){
             System.out.println(advisor.toString());
-        }*/
-        Object o1 = creator.wrapIfNecessary(new A17.Target1(), "target1", "target1");
+        }
+
+        Object o1 = creator.wrapIfNecessary(new Target1(), "target1", "target1");
         System.out.println(o1.getClass());
-        Object o2 = creator.wrapIfNecessary(new A17.Target2(), "target2", "target2");
+        Object o2 = creator.wrapIfNecessary(new Target2(), "target2", "target2");
         System.out.println(o2.getClass());
-        ((A17.Target1)o1).foo();
+        //代理对象，调用方法，会增强
+        ((Target1) o1).foo();
+
 
 //        for(String name: context.getBeanDefinitionNames()){
 //            System.out.println(name);
@@ -64,8 +70,6 @@ public class A17 {
     }
 
     @Aspect //高级切面类
-//    Order放在类上设置spring的加载顺序。
-    @Order(1)
     static class Aspect1 {
         @Before("execution(* foo())")
         public void before() {
@@ -90,9 +94,9 @@ public class A17 {
         @Bean
         public MethodInterceptor advice3() {
             return invocation -> {
-                System.out.println("advice3 aspect before");
+                System.out.println("aspect before");
                 Object result = invocation.proceed();
-                System.out.println(" advice3 aspect after");
+                System.out.println("aspect after");
                 return result;
             };
         }
