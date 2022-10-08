@@ -94,9 +94,9 @@ public class A17 {
         @Bean
         public MethodInterceptor advice3() {
             return invocation -> {
-                System.out.println("aspect before");
+                System.out.println("advice3 before");
                 Object result = invocation.proceed();
-                System.out.println("aspect after");
+                System.out.println("advice3 after");
                 return result;
             };
         }

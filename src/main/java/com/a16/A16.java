@@ -27,22 +27,22 @@ public class A16 {
         //设置切点
 //
 //       匹配方法
-//        AspectJExpressionPointcut pt1 = new AspectJExpressionPointcut();
-//        pt1.setExpression("execution(* bar())");
-//        System.out.println(pt1.matches(T1.class.getMethod("foo"), T1.class));
-//        System.out.println(pt1.matches(T1.class.getMethod("bar"), T1.class));
+/*        AspectJExpressionPointcut pt1 = new AspectJExpressionPointcut();
+        pt1.setExpression("execution(* foo())");
+        System.out.println(pt1.matches(T1.class.getMethod("foo"), T1.class));
+        System.out.println(pt1.matches(T1.class.getMethod("bar"), T1.class));
 
 //        匹配注解
-//        AspectJExpressionPointcut pt2 = new AspectJExpressionPointcut();
-//        pt2.setExpression("@annotation(org.springframework.transaction.annotation.Transactional)");
-//        System.out.println(pt2.matches(T1.class.getMethod("foo"), T1.class));
-//        System.out.println(pt2.matches(T1.class.getMethod("bar"), T1.class));
+        AspectJExpressionPointcut pt2 = new AspectJExpressionPointcut();
+        pt2.setExpression("@annotation(org.springframework.transaction.annotation.Transactional)");
+        System.out.println(pt2.matches(T1.class.getMethod("foo"), T1.class));
+        System.out.println(pt2.matches(T1.class.getMethod("bar"), T1.class));
 //
-//        System.out.println(pt2.matches(T3.class.getMethod("foo"), T3.class));
+        System.out.println(pt2.matches(T3.class.getMethod("foo"), T3.class));*/
 
 
         //静态匹配器
-        StaticMethodMatcherPointcut pt3 = new StaticMethodMatcherPointcut() {
+       /* StaticMethodMatcherPointcut pt3 = new StaticMethodMatcherPointcut() {
             @Override
             public boolean matches(Method method, Class<?> targetClass) {
                 // 检查方法上是否加了 Transactional 注解
@@ -59,11 +59,11 @@ public class A16 {
             }
         };
 
-
+        System.out.println("静态匹配器...,查看方法上和类上有没有注解");
         System.out.println(pt3.matches(T1.class.getMethod("foo"), T1.class));
         System.out.println(pt3.matches(T1.class.getMethod("bar"), T1.class));
         System.out.println(pt3.matches(T2.class.getMethod("foo"), T2.class));
-        System.out.println(pt3.matches(T3.class.getMethod("foo"), T3.class));
+        System.out.println(pt3.matches(T3.class.getMethod("foo"), T3.class));*/
 
         //动态匹配器,需要检查参数,动态参数一般用的比较少，每次执行方法的时候都要进行检查。
         //静态匹配可以缓存。
@@ -100,6 +100,11 @@ public class A16 {
     }
 
     static class T1 {
+
+        @Transactional
+        public void foo() {
+
+        }
         @Transactional
         public void foo(String test) {
             System.out.println("test" + test);

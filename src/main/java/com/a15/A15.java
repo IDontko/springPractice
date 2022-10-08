@@ -72,6 +72,17 @@ public class A15 {
         proxy.bar();
         proxy.foo();
 
+        /*Target2 target2 = new Target2();
+        ProxyFactory factory = new ProxyFactory();
+        factory.setTarget(target2);
+        factory.addAdvisor(advisor);
+        factory.setInterfaces(target2.getClass().getInterfaces());
+        factory.setProxyTargetClass(false);
+        Target2 proxy = (Target2) factory.getProxy();
+        System.out.println(proxy.getClass());
+        proxy.bar();
+        proxy.foo();*/
+
     }
 
     interface I1 {
