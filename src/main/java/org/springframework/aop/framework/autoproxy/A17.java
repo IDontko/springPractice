@@ -27,7 +27,9 @@ public class A17 {
         //让@Bean生效
         context.registerBean(ConfigurationClassPostProcessor.class);
         context.registerBean(AnnotationAwareAspectJAutoProxyCreator.class);
-
+        for(String beanName : context.getBeanDefinitionNames()){
+            System.out.println(beanName);
+        }
         context.registerBean("target1", Target1.class);
         context.refresh();
 
@@ -44,10 +46,13 @@ public class A17 {
 
         Object o1 = creator.wrapIfNecessary(new Target1(), "target1", "target1");
         System.out.println(o1.getClass());
+        //target2没有合适的切面，不需要创建代理
         Object o2 = creator.wrapIfNecessary(new Target2(), "target2", "target2");
         System.out.println(o2.getClass());
         //代理对象，调用方法，会增强
         ((Target1) o1).foo();
+        //调用目标对象，不增强
+        ((Target2) o2).bar();
 
 
 //        for(String name: context.getBeanDefinitionNames()){
@@ -65,7 +70,7 @@ public class A17 {
 
     static class Target2 {
         public void bar() {
-            System.out.println("target2 foo");
+            System.out.println("target2 bar");
         }
     }
 
@@ -84,7 +89,7 @@ public class A17 {
 
     @Configuration
     static class Config {
-        @Bean
+        @Bean // 低级切面
         public Advisor advisor3(MethodInterceptor advice3) {
             AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
             pointcut.setExpression("execution(* foo())");
